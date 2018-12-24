@@ -1,2 +1,6 @@
 # rs485-communicator
 An arduino library to synchronize serial communication over RS485 Bus
+
+Repository in construction (as of 24/12/2018)...
+
+Coming soon...
