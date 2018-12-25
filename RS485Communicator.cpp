@@ -57,20 +57,26 @@ bool RS485Communicator::begin(byte _dePin, byte _myAddr, unsigned long baud) {
 bool RS485Communicator::loop(byte tokenAddress, bool writeToken) {
   if (writePermission) {
 
+    // enable DRIVER ENABLE signal of the transcaiver, making the current transceiver in write mode
     digitalWrite(de485ControlPin, RS485_DRIVER_ENABLE);
+	
+	// wait some time to meke the driver enable signal effective
+	// FIXME: how to make this time not hardcoded?
     delayMicroseconds(500);
 
+	//sending messages
     while (sendBufferCount > 0) {
       sendOneBufferedMessage();
     }
 
     if (writeToken) {
+	  //sending token
       sendToken(tokenAddress);
       writePermission = false;
     }
 
+	// disable DRIVER ENABLE signal of the transcaiver, making the current transceiver in read mode
     digitalWrite(de485ControlPin, RS485_DRIVER_DISABLE);
-    delay(1);
 
     if (writeToken) {
       return true;
@@ -147,6 +153,7 @@ void RS485Communicator::readOneMessage() {
     }
   }
 }
+
 RS485Message* RS485Communicator::popMessage() {
   RS485Message *m = NULL;
   if (recvBufferCount > 0) {
@@ -160,16 +167,14 @@ RS485Message* RS485Communicator::popMessage() {
 }
 
 void RS485Communicator::writeMessageToBus(RS485Message * message) {
+  
+  // calculating crc
   byte crc = calculateMessageCrc(message);
 
-
-
-  /* Writing the actual message one byte by one byte.
+  /* Writing the actual message byte by byte.
      We need to wait after each byte to be sure the byte has been effectively written to the serial port.
      This is made by checking internal arduino registers.
-  */
-
-  
+  */  
   for (byte i = 0; i < 3+ RS485_PAYLOAD_LENGTH + RS485_PAYLOAD_FIX_BYTES; ++i) {
     RS485_SERIAL_NAME.write(message->buffer[i]);
     while (!(UCSR0A & (1 << TXC0)));
@@ -181,11 +186,9 @@ void RS485Communicator::writeMessageToBus(RS485Message * message) {
   RS485_SERIAL_NAME.write(255); //message delimiter
   while (!(UCSR0A & (1 << TXC0)));
   
-
-  /* Disable write state of the transceiver
-  */
+  // wait some time time at the end of the transmission
+  // FIXME: check if this timer is still needed after the 'dramatic day discover'
   delayMicroseconds(300);
-
 
   message->clean();
 }
@@ -205,7 +208,6 @@ bool RS485Communicator::sendOneBufferedMessage() {
 
 bool RS485Communicator::sendToken(byte _address) {
 
-
   tokenMessage.setMessageType(RS485Message::MessageToken);
   tokenMessage.setDestinationAddress(_address);
   tokenMessage.setSourceAddress(localAddress);
@@ -213,9 +215,11 @@ bool RS485Communicator::sendToken(byte _address) {
 
   return true;
 }
+
 byte RS485Communicator::inboxCount() {
   return recvBufferCount;
 }
+
 byte RS485Communicator::available() {
   return RS485_SERIAL_NAME.available();
 }
@@ -223,6 +227,7 @@ byte RS485Communicator::available() {
 boolean RS485Communicator::ready() {
   return RS485_SERIAL_NAME;
 }
+
 byte RS485Communicator::getLocalAddress(){
   return localAddress;
 }
@@ -244,12 +249,13 @@ RS485Communicator::RS485QueueResult RS485Communicator::queueMessage(RS485Message
   
   return RS485QueueResult::Success;
 }
+
 byte RS485Communicator::calculateMessageCrc(RS485Message * _message) {
 
   /* crc is calculated on bytes 1,2,3,...,2+RS485_PAYLOAD_LENGTH+RS485_PAYLOAD_FIX_BYTES of the message.
-      The first one and the last one bytes are omitted (first is delimiter, last is where to place the CRC).
+     The first one and the last one bytes are omitted (first is delimiter, last is where to place the CRC).
 
-      credits to: http://www.leonardomiliani.com/2013/un-semplice-crc8-per-arduino/
+     credits to: http://www.leonardomiliani.com/2013/un-semplice-crc8-per-arduino/
   */
   byte crc = 0x00;
   byte index = 3 + RS485_PAYLOAD_LENGTH + RS485_PAYLOAD_FIX_BYTES;
@@ -265,7 +271,6 @@ byte RS485Communicator::calculateMessageCrc(RS485Message * _message) {
     index--;
   }
 
-
   /* This is the crc fix. Since byte 255 is reserved as message delimiter, it cannot be used on the other message bytes
      This is an act of faith. We cannot then detect an error if the received-message crc will be 254 but the orignal one was faked from 255 to 254.
      However, that's better than nothing.
@@ -280,15 +285,19 @@ byte RS485Communicator::calculateMessageCrc(RS485Message * _message) {
 unsigned long RS485Communicator::getSentMessageCount(){
   return sentMessageCount;
 }
+
 unsigned long RS485Communicator::getRecvMessageCount(){
   return recvMessageCount;
 }
+
 unsigned long RS485Communicator::getLenghtErrorCount(){
   return lenghtErrorCount;
 }
+
 unsigned long RS485Communicator::getCrcErrorCount(){
   return crcErrorCount;
 }
+
 unsigned long RS485Communicator::getTokenCount(){
   return tokenCount;
 }
