@@ -1,0 +1,22 @@
+{
+  "name": "RS485-communicator",
+  "keywords": "RS485, serial",
+  "description": "Arduino Library for RS485 synchronized communication ",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/grisson2/rs485-communicator.git"
+  },
+  "authors": 
+  [
+    {
+      "name": "Ivan Vaccari",
+      "email": "vaccari87@gmail.com",
+      "url": "http://www.ivanvaccari.it",
+      "maintainer": true
+    }
+  ],
+  "version": "1.0.0",
+  "frameworks": "arduino",
+  "platforms": "*"
+}

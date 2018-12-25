@@ -1,0 +1,43 @@
+#######################################
+# Syntax Coloring Map For Serial485
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+RS485Communicator		KEYWORD1
+RS485Master				KEYWORD1
+RS485Slave				KEYWORD1
+RS485Message			KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+bein 					KEYWORD2
+RS485QueueResult		KEYWORD2
+MessageType				KEYWORD2
+ready					KEYWORD2
+popMessage				KEYWORD2
+inboxCount				KEYWORD2
+setSlaveAvailability	KEYWORD2
+getSlaveAvailability	KEYWORD2
+getCrcErrorCount		KEYWORD2
+getLenghtErrorCount		KEYWORD2
+loop					KEYWORD2
+getSentMessageCount		KEYWORD2
+getRecvMessageCount		KEYWORD2
+getTokenCount			KEYWORD2
+getLocalAddress			KEYWORD2
+setDestinationAddress	KEYWORD2
+getDestinationAddress	KEYWORD2
+getSourceAddress		KEYWORD2
+setByteArrayPayload		KEYWORD2
+setBytePayload			KEYWORD2
+setStringPayload		KEYWORD2
+getBytePayload			KEYWORD2
+getStringPayload		KEYWORD2
+getArrayPayload			KEYWORD2
+setMessageType			KEYWORD2
+getMessageType			KEYWORD2
+clean					KEYWORD2
+getReceivedCrcByte		KEYWORD2
