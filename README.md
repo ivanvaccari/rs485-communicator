@@ -26,7 +26,7 @@ See [Samples folder](https://github.com/grisson2/rs485-communicator/tree/master/
 
 
 # License
-This library is distribuited under GPLv3. See [GPLv3 disclaimer] (https://github.com/grisson2/rs485-communicator/blob/master/LICENSE).
+This library is distribuited under GPLv3. See [GPLv3 disclaimer](https://github.com/grisson2/rs485-communicator/blob/master/LICENSE).
 
 
 
