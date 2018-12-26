@@ -6,11 +6,24 @@ RS485-comminicatoris a serial synchronization library for master to multi-slave 
 
 # Wiki
 More informations can be found in the wiki pages: 
+
 [Wiki home](https://github.com/grisson2/rs485-communicator/wiki)
+
 [Synchronization protocol & frame structure](https://github.com/grisson2/rs485-communicator/wiki/Synchronization-protocol-&-frame-structure)
+
 [Tuning the token return timeout value](https://github.com/grisson2/rs485-communicator/wiki/Tuning-the-token-return-timeout-value)
+
 [RS485 trnsceivers](https://github.com/grisson2/rs485-communicator/wiki/RS485-transceivers)
+
 [Circuit sample & cables](https://github.com/grisson2/rs485-communicator/wiki/Circuit-sample-&-cable)
+
+# Samples
+
+See [Samples folder](https://github.com/grisson2/rs485-communicator/tree/master/examples) in the source code directory for a quick review on both Master and slave implementations.
+
+
+# License
+This library is distribuited under GPLv3. See [GPLv3 disclaimer] (https://github.com/grisson2/rs485-communicator/blob/master/LICENSE).
 
 
 
