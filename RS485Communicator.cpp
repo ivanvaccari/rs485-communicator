@@ -43,8 +43,11 @@ bool RS485Communicator::begin(byte _dePin, byte _myAddr, unsigned long baud) {
   de485ControlPin = _dePin;
   localAddress = _myAddr;
 
+  // set the RE pin to low(read) by default
   pinMode(de485ControlPin, OUTPUT);
   digitalWrite(de485ControlPin, RS485_DRIVER_DISABLE);
+
+  // by default only the master (addr=0) must have write permission by default
   writePermission = localAddress == 0;
 
   RS485_SERIAL_NAME.begin(baud);
@@ -60,11 +63,11 @@ bool RS485Communicator::loop(byte tokenAddress, bool writeToken) {
     // enable DRIVER ENABLE signal of the transcaiver, making the current transceiver in write mode
     digitalWrite(de485ControlPin, RS485_DRIVER_ENABLE);
 	
-	// wait some time to meke the driver enable signal effective
-	// FIXME: how to make this time not hardcoded?
+	  // wait some time to meke the driver enable signal effective
+	  // FIXME: how to make this time not hardcoded?
     delayMicroseconds(500);
 
-	//sending messages
+	  //sending messages
     while (sendBufferCount > 0) {
       sendOneBufferedMessage();
     }
@@ -75,7 +78,7 @@ bool RS485Communicator::loop(byte tokenAddress, bool writeToken) {
       writePermission = false;
     }
 
-	// disable DRIVER ENABLE signal of the transcaiver, making the current transceiver in read mode
+	  // disable DRIVER ENABLE signal of the transcaiver, making the current transceiver in read mode
     digitalWrite(de485ControlPin, RS485_DRIVER_DISABLE);
 
     if (writeToken) {
@@ -179,11 +182,13 @@ void RS485Communicator::writeMessageToBus(RS485Message * message) {
     RS485_SERIAL_NAME.write(message->buffer[i]);
     while (!(UCSR0A & (1 << TXC0)));
   }
-    
+  
+  // write crc
   RS485_SERIAL_NAME.write(crc);
   while (!(UCSR0A & (1 << TXC0)));
 
-  RS485_SERIAL_NAME.write(255); //message delimiter
+  //write message delimiter
+  RS485_SERIAL_NAME.write(255);
   while (!(UCSR0A & (1 << TXC0)));
   
   // wait some time time at the end of the transmission

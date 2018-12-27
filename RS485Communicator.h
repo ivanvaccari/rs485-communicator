@@ -67,6 +67,7 @@ class RS485Communicator{
 
     /*!
     \brief get the ready state of the serial port
+    \return true if the serial is ready, false otherwise
     */
     bool ready();
 
@@ -81,15 +82,30 @@ class RS485Communicator{
      */
     RS485Message* popMessage();
 
-    
+    /*! \brief get the count of sent messages
+    */
     unsigned long getSentMessageCount();
+
+    /*! \brief get the count of received messages
+    */
     unsigned long getRecvMessageCount();
+
+    /*! \brief get the count of errors related to message lenght mismatch
+    */
     unsigned long getLenghtErrorCount();
+    
+    /*! \brief get the count of crc error occurred
+    */
     unsigned long getCrcErrorCount();
+
+    /*! \brief get the count of exchanged tokens
+    */
     unsigned long getTokenCount();
 
-
+    /*! \brief get the local serial address
+    */
     byte getLocalAddress();
+
   protected:
 
     /*
@@ -115,13 +131,13 @@ class RS485Communicator{
     /*
      * Support structures for recurrent usages
      */
-    RS485Message tokenMessage;
-    RS485Message currentReceivingMessage;
+    RS485Message tokenMessage;  // buffer for token message bytes
+    RS485Message currentReceivingMessage;  // buffer for the message currently in the serial read process
 
     /*
      * Stats counters
      */
-    unsigned long recvMessageCount;
+    unsigned long recvMessageCount; 
     unsigned long sentMessageCount;
     unsigned long lenghtErrorCount;
     unsigned long crcErrorCount;

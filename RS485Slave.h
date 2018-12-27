@@ -34,6 +34,7 @@ class RS485Slave: public RS485Communicator{
      *  /param _dePin the pin to be used to contro the driver enable signal of the RS485 module.
      *  /param _myAddress The RS485 address to be assigned to this instance
      *  /param _baud The serial baud value. See Arduino Serial speed for reference
+     *  /return true if the serial begin have success, false otherwise
      */
     bool begin(byte _dePin, byte _myAddress, unsigned long _baud = 19200);
 

@@ -27,13 +27,18 @@ RS485Slave::RS485Slave():
 
 
 bool RS485Slave::begin(byte _dePin,byte _myAddress, unsigned long baud ){
+
+  // slave can't use the address 0
   if (_myAddress == 0){
     return false;
   }
+
+  // begin from base class
   return RS485Communicator::begin(_dePin,_myAddress, baud);
 }
 
 
 void RS485Slave::loop(){
+  //loop from main class
   RS485Communicator::loop(0,true);
 }
