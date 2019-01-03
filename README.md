@@ -1,4 +1,4 @@
-# RS485-comminicator
+# RS485-communicator
 
 ## NOTE: repository & library under development (26-12-2018)
 
