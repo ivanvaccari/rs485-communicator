@@ -39,6 +39,7 @@ RS485Communicator::RS485Communicator():
 {
 
 }
+
 bool RS485Communicator::begin(byte _dePin, byte _myAddr, unsigned long baud) {
   de485ControlPin = _dePin;
   localAddress = _myAddr;
@@ -47,7 +48,7 @@ bool RS485Communicator::begin(byte _dePin, byte _myAddr, unsigned long baud) {
   pinMode(de485ControlPin, OUTPUT);
   digitalWrite(de485ControlPin, RS485_DRIVER_DISABLE);
 
-  // by default only the master (addr=0) must have write permission by default
+  // by default only the master (localAddress=0) must have write permission by default
   writePermission = localAddress == 0;
 
   RS485_SERIAL_NAME.begin(baud);
@@ -111,7 +112,9 @@ void RS485Communicator::readOneMessage() {
         currentReceivingMessage.clean();
         crcErrorCount++;
 
-      } else if (currentReceivingMessage.getDestinationAddress() != localAddress) {
+      } else if ((currentReceivingMessage.getDestinationAddress() != localAddress) &&
+				(currentReceivingMessage.getDestinationAddress() != 254)){
+
         /* I'm not the destination of the message. Discard it*/
         currentReceivingMessage.clean();
 

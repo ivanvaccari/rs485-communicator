@@ -24,6 +24,7 @@ RS485Message::RS485Message(){
   clean();
 }
 bool RS485Message::setDestinationAddress(byte address){
+  // 255 is not a valid address. It's a control value
   if (address==255)
     return false;
     
@@ -35,6 +36,12 @@ byte RS485Message::getDestinationAddress(){
   return buffer[0];
 }
 bool RS485Message::setSourceAddress(byte address){
+
+  // 254 cannot be a sender. It's the broadcast address
+  if (address==254)
+    return false;
+
+  // 255 is not a valid address. It's a control value
   if (address==255)
     return false;
     

@@ -35,7 +35,7 @@
 /* How many incoming messages can be buffered?
  */
 #ifndef RS485_RECV_BUFFER_SIZE
-#define RS485_RECV_BUFFER_SIZE 3
+#define RS485_RECV_BUFFER_SIZE 2
 #endif
 
 /* How many outgoing messages can be buffered?
