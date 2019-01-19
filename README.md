@@ -1,11 +1,14 @@
-# RS485-comminicator
 
-## NOTE: repository & library under development (26-12-2018)
+# NOTE: repository & library under development (19-01-2019)
+## Code not ready for usage
+
+# RS485-communicator
+
 
 RS485-comminicatoris a serial synchronization library for master to multi-slave communication designed to work on a RS485 bus. The main purposes of this library are:
 
 * **Organize serial data transfer** in order to avoid collisions when multiple devices uses the same shared medium (like a RS485 bus). This is done by a token-driven logic.
-* **Message integrity** in order to detect when errors occurs during trnsmission. This is done by crc8 checks
+* **Message integrity** in order to detect when errors occurs during transmission. This is done by crc8 checks
 
 # Wiki
 More informations can be found in the wiki pages: 
@@ -16,7 +19,7 @@ More informations can be found in the wiki pages:
 
 [Tuning the token return timeout value](https://github.com/grisson2/rs485-communicator/wiki/Tuning-the-token-return-timeout-value)
 
-[RS485 trnsceivers](https://github.com/grisson2/rs485-communicator/wiki/RS485-transceivers)
+[RS485 transceivers](https://github.com/grisson2/rs485-communicator/wiki/RS485-transceivers)
 
 [Circuit sample & cables](https://github.com/grisson2/rs485-communicator/wiki/Circuit-sample-&-cable)
 
