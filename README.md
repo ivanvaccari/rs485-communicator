@@ -1,6 +1,7 @@
 # RS485-communicator
 
-## NOTE: repository & library under development (26-12-2018)
+## NOTE: repository & library under development (19-01-2019)
+### Code not ready for usage
 
 RS485-comminicatoris a serial synchronization library for master to multi-slave communication designed to work on a RS485 bus. The main purposes of this library are:
 
