@@ -50,7 +50,9 @@ bool RS485Communicator::begin(byte _dePin, byte _myAddr, unsigned long baud) {
 
   // by default only the master (localAddress=0) must have write permission by default
   writePermission = localAddress == 0;
-
+  if (localAddress == 0){
+	  lastWritePermissionMillis = millis();
+  }
   RS485_SERIAL_NAME.begin(baud);
   while (!RS485_SERIAL_NAME) {}
 
@@ -124,11 +126,13 @@ void RS485Communicator::readOneMessage() {
           /* i'm the master and this is a token return.*/
           tokenCount++;
           writePermission = true;
+          lastWritePermissionMillis = millis();
           
         } else if (currentReceivingMessage.getSourceAddress() == 0 ) {
           /* i'm a slave. Slaves are allowed to receive tokens only from master.
             Tokens from other slaves are protocol violations.*/
           writePermission = true;
+          lastWritePermissionMillis = millis();
           tokenCount++;
         }
 

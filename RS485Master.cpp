@@ -24,16 +24,21 @@ RS485Master::RS485Master():
   RS485Communicator(),
   currentSlaveAddress(0),
   lastSentTokenTimeout(0),
-  tokenReturnTimeout(400){
+  tokenReturnTimeout(400),
+  delayBetweenPolls(100){
   memset(slavesAvailability,0,AVAILABILITY_BYTES);
 }
 
 
-bool RS485Master::begin(byte _dePin, unsigned long _tokenReturnTimeout, unsigned long _baud){
+bool RS485Master::begin(byte _dePin, unsigned long _tokenReturnTimeout, unsigned long _delayBetweenPolls, unsigned long _baud){
   
-  if (_tokenReturnTimeout <5 ){
+  // too low timeouts are not accepted by default.
+  if (_tokenReturnTimeout < 20 ){
     return false;
   }
+  
+  delayBetweenPolls=_delayBetweenPolls;
+  
   tokenReturnTimeout = _tokenReturnTimeout;
   return RS485Communicator::begin(_dePin,0,_baud);
 }
@@ -55,7 +60,11 @@ bool RS485Master::getSlaveAvailability(byte _addr){
 }
 
 void RS485Master::loop(){
-  
+  unsigned long currentMillis = millis();
+  if (writePermission && (currentMillis - lastWritePermissionMillis <= delayBetweenPolls)) {
+	return;
+  }
+   
   byte nextAddressToPoll=0;
   if (writePermission){
     /* Master must manage the write Token.

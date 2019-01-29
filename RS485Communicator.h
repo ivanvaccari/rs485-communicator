@@ -114,7 +114,8 @@ class RS485Communicator{
     byte localAddress;    // my address
     byte de485ControlPin; //Driver enable control pin
     bool writePermission; //track the current status about write permission on the bus
-  
+	unsigned long lastWritePermissionMillis; // millis of the last time we get writing permission
+	
     /*
     Message buffering support variables
     Buffers are managed as 'circular FIFO' in order to reuse & save memory

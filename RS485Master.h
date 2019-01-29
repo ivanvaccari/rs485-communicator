@@ -35,6 +35,20 @@
 /* bytes to save the runtime availability of slaves. Must be ceil(MAXIMUM_DEVICES_COUNT/8*/
 #define AVAILABILITY_BYTES 4
 
+/* NOTE on delayBetweenPolls
+
+wait some time before polling the next client. This will slow down the message rate per second but it
+will reduce the probability of running out of caching bytes on the arduino serial interface of slaves (they
+can handle 64 bytes). If slaves perform blocking operations while the master poll slaves at high rate, the cache
+of the blocked client will be filled and it will lost subsequent messages until it exit from his blocking state.
+This is not a critical issue, but there's a high probability the slave will read an incomplete message at some 
+point and it will generate an error.
+By slowing down the rate i'm trying to deliver less message on eventually blocked clients, giving them time to exit 
+their blocked state before the serial buffer starts to full up.
+
+Time in millieconds */
+
+
 /*!
  * \brief Class for manage the Rs485 Master
  */
@@ -44,16 +58,18 @@ class  RS485Master: public RS485Communicator{
     byte currentSlaveAddress;
     unsigned long lastSentTokenTimeout; 
     unsigned long tokenReturnTimeout;
+	unsigned long delayBetweenPolls;
   public:
     RS485Master();
 
     
     /*! /brief setup the bus slave.
-     *  /param _dePin the pin to be used to contro the driver enable signal of the RS485 module.
+     *  /param _dePin the pin to be used to control the driver enable signal of the RS485 module.
      *  /param _tokenReturnTimeout The token return timeout. See wiki for reference
+	 *  /param _delayBetweenPolls The delay to wait when we get write permission before to poll the next slave.
      *  /param _baud The serial baud value. See Arduino Serial speed for reference
      */
-    bool begin(byte _dePin, unsigned long _tokenReturnTimeout = 400, unsigned long _baud = 19200);
+    bool begin(byte _dePin, unsigned long _tokenReturnTimeout = 400, unsigned long _delayBetweenPolls = 100, unsigned long _baud = 19200);
 
     /*! /brief Get the presence or absence of a specific address. Only present address will be polled by the library
      */
