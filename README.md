@@ -17,6 +17,8 @@ More informations can be found in the wiki pages:
 
 [Synchronization protocol & frame structure](https://github.com/grisson2/rs485-communicator/wiki/Synchronization-protocol-&-frame-structure)
 
+[Classes methods](https://github.com/grisson2/rs485-communicator/wiki/Classes-methods)
+
 [Tuning the token return timeout value](https://github.com/grisson2/rs485-communicator/wiki/Tuning-the-token-return-timeout-value)
 
 [RS485 transceivers](https://github.com/grisson2/rs485-communicator/wiki/RS485-transceivers)
