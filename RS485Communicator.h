@@ -105,6 +105,11 @@ class RS485Communicator{
     /*! \brief get the local serial address
     */
     byte getLocalAddress();
+	
+	/*!
+	 * \brief return the write permission status.
+	 */
+	bool haveWritePermission();
 
   protected:
 
@@ -187,6 +192,7 @@ class RS485Communicator{
      * \brief read the available data on the serial bus.
      */
     void readOneMessage();
+
 
 };
 

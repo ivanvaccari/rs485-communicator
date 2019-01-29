@@ -313,3 +313,7 @@ unsigned long RS485Communicator::getCrcErrorCount(){
 unsigned long RS485Communicator::getTokenCount(){
   return tokenCount;
 }
+
+bool RS485Communicator::haveWritePermission(){
+	return writePermission;
+}
